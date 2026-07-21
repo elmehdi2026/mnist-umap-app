@@ -67,7 +67,7 @@ with st.spinner("Exécution de la projection UMAP..."):
   )
   embedding = reducer.fit_transform(X_subset)
 
-# Affichage du graphique interactif Matplotlib
+# Affichage du graphique interactif Matplotlib (avec légende décalée et ajustement anti-coupure)
 fig, ax = plt.subplots(figsize=(10, 7))
 scatter = ax.scatter(
     embedding[:, 0],
@@ -81,7 +81,7 @@ legend = ax.legend(
     *scatter.legend_elements(),
     title="Chiffres",
     loc="upper right",
-    bbox_to_anchor=(1.15, 1)
+    bbox_to_anchor=(1.25, 1),
 )
 ax.add_artist(legend)
 ax.set_title(
@@ -93,10 +93,14 @@ ax.set_xlabel("Dimension UMAP 1")
 ax.set_ylabel("Dimension UMAP 2")
 ax.grid(True, linestyle="--", alpha=0.5)
 
-st.pyplot(fig)
+# Utilisation de bbox_inches='tight' pour empêcher Streamlit de rogner les éléments extérieurs (légende)
+st.pyplot(fig, bbox_inches="tight")
 
 st.markdown("---")
 st.markdown("### 💡 Ce que montre ce graphique :")
 st.markdown(
-    "- Contrairement à la PCA qui est linéaire, **UMAP** modélise les voisinages locaux pour regrouper les chiffres similaires (ex: tous les '0' ensemble, tous les '1' ensemble) tout en respectant la structure globale du dataset."
+    "- Contrairement à la PCA qui est linéaire, **UMAP** modélise les"
+    " voisinages locaux pour regrouper les chiffres similaires (ex: tous les"
+    " '0' ensemble, tous les '1' ensemble) tout en respectant la structure"
+    " globale du dataset."
 )
